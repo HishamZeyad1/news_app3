@@ -16,11 +16,12 @@ class CacheHelper{
     return sharedPreferences1!.getBool(key);
   }
 
-  static Future<bool> putstring({required String key,required String value}) async{
-    return sharedPreferences1!.setString(key, value);
+  static Future<bool> putstring({required String key,required String? value}) async{
+    return sharedPreferences1!.setString(key, value!);
   }
 
   static String? getstring({required String key}){
     return sharedPreferences1!.getString(key);
   }
+
 }

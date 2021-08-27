@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:logout_problem_solution/CacheHelper.dart';
 import 'package:logout_problem_solution/HomeScreen.dart';
+import 'package:logout_problem_solution/Screens/category_page.dart';
 import 'package:logout_problem_solution/nav_menu.dart';
 import 'package:logout_problem_solution/page/user_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +36,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
       NavMenuItem(isLoggedIn?"Logout":"Login",isLoggedIn?Icons.logout:Icons.login,isLoggedIn?() => Logout():() =>Login()),
        NavMenuItem("register",Icons.app_registration,()=>Register()),
-      // ListTile(
+       NavMenuItem("select Category",Icons.category ,() => CategoryPage() ),
+
+       // ListTile(
       // leading: Icon(Icons.people),
       // title: Text("people"),
       // // hoverColor: hoverColor,
@@ -56,8 +59,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     }
     bool? profileSwitch=CacheHelper.getbool(key: "token")??false;
     final name=profileSwitch?CacheHelper.getstring(key: "name")??"Hisham Zeyad":"Sarah Abs",
-          email=profileSwitch?CacheHelper.getstring(key: "username")??"":"sarah@abs.com",
-          urlImage=profileSwitch?'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80':"";
+          email=profileSwitch?CacheHelper.getstring(key: "email")??"":"sarah@abs.com",
+          urlImage=profileSwitch?CacheHelper.getstring(key: "avatar")??"https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80":
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80";
 
     // if(profileSwitch==true){
     //    name = 'Sarah Abs';
@@ -70,7 +74,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       child: Material(
         color: Color.fromRGBO(50, 75, 205, 1),
         child: Padding(
-          padding: EdgeInsets.only(top: 10, left: 2),
+          padding: EdgeInsets.only(top: 15, left: 2),
           child: Column(
             children:[
               buildHeader(
@@ -85,7 +89,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 )),
               ),
             ListView.builder(
-                  scrollDirection: Axis.vertical,
+                  // scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemBuilder: (context, position) {
                     return Padding(
@@ -124,7 +128,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       InkWell(
         onTap: onClicked,
         child: Container(
-          padding: padding.add(EdgeInsets.symmetric(vertical: 25)),
+          padding: padding.add(EdgeInsets.symmetric(vertical: 10)),
           child: Row(
             children: [
               CircleAvatar(radius: 30,
@@ -159,27 +163,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     // sharedPreferences = await SharedPreferences.getInstance();
     // token = sharedPreferences!.getBool('token')!;
     setState(() {
-      // if( token == null ){
-      //   isLoggedIn = false;
-      // }else{
-      //   isLoggedIn = true;
-      // }
+
     });
   }
 
-  // _logout(){
-  //   if( sharedPreferences != null ){
-  //     sharedPreferences!.remove('token');
-  //   }
-  //   return HomeScreen();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if( isLoggedIn ){
-  //     navigationMenu.add( NavMenuItem("Logout", _logout() ) );
-  //   }
-  // }
 
 }

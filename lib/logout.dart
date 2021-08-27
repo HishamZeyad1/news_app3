@@ -57,6 +57,10 @@ class _LogoutState extends State<Logout> {
     // //
     if( token != null ){
       CacheHelper.sharedPreferences1!.remove('token');
+      // CacheHelper.putbool(key: "token", value: false);
+      CacheHelper.putstring(key: "name", value: null);
+      CacheHelper.putstring(key: "email", value: null);
+      CacheHelper.putstring(key: "avatar", value: null);
     }
     // SharedPreferences sharedPreferences=CacheHelper.init();
     //  sharedPreferences.setBool("isLoggedIn",false);

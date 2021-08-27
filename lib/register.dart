@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logout_problem_solution/CacheHelper.dart';
-import 'package:logout_problem_solution/register_api.dart';
+import 'package:logout_problem_solution/login.dart';
+import 'api/register_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'HomeScreen.dart';
@@ -141,14 +143,24 @@ class _RegisterState extends State<Register> {
                   if (response) {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                          return HomeScreen();
+                          return Login();
                         }));
+                    Fluttertoast.showToast(
+                        msg: "The registration is done",
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 3,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0
+                    );
+
                     setState(() {
                       // SharedPreferences sharedPreferences=CacheHelper.init();
                       // sharedPreferences.setBool("isLoggedIn",true);
-                      CacheHelper.putbool(key: "token", value: true);
-                      CacheHelper.putstring(key: "username", value: username);
-                      CacheHelper.putstring(key: "name", value: name);
+                      // CacheHelper.putbool(key: "token", value: true);
+                      // CacheHelper.putstring(key: "email", value: username);
+                      // CacheHelper.putstring(key: "name", value: name);
 
                     });
                   } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logout_problem_solution/CacheHelper.dart';
-import 'package:logout_problem_solution/authentication_api.dart';
+import 'api/authentication_api.dart';
 import 'package:logout_problem_solution/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,12 +120,21 @@ class _LoginState extends State<Login> {
     username = _usernameController.text;
     password = _passwordController.text;
 
-    print( username );
+    // print( username );
 
     var response = await authenticationAPI.login(
     username, password);
 
     if (response) {
+      Fluttertoast.showToast(
+          msg: "The Login is done",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 3,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     Navigator.push(context,
     MaterialPageRoute(builder: (context) {
     return HomeScreen();
@@ -132,7 +142,7 @@ class _LoginState extends State<Login> {
     setState(() {
     // SharedPreferences sharedPreferences=CacheHelper.init();
     // sharedPreferences.setBool("isLoggedIn",true);
-      CacheHelper.putstring(key: "username", value: username);
+    //   CacheHelper.putstring(key: "username", value: username);
       // CacheHelper.putbool(key: "name", value: name);
     });
     } else {
@@ -156,6 +166,9 @@ class _LoginState extends State<Login> {
       ),
     ),
     ),
+          SizedBox(
+            height: 10,
+          ),
 
     SizedBox(
       width: double.infinity,
@@ -176,7 +189,9 @@ class _LoginState extends State<Login> {
         ),
       ),
     ),
-
+          SizedBox(
+            height: 10,
+          ),
     SizedBox(
             width: double.infinity,
             child: RaisedButton(
