@@ -11,21 +11,6 @@ class HomeScreen extends StatefulWidget {
   }
   @override
   _HomeScreenState createState() => _HomeScreenState();
-// void sharedata() async {
-//   prefs=[];
-//   prefs.length=7;
-//   for(int index=0;index<prefs.length;++index){
-//     prefs[index]=await  SharedPreferences.getInstance();
-//   }
-// }
-// void _updateFollow() {
-//   sharedata();
-//   for(int index=0;index<NewsFavoriteList!.length;++index){
-//     print("**********************");
-//     prefs[NewsFavoriteList![index]].setBool('follow' ,true);
-//   }
-//   // print(prefs);
-// }
 
 }
 

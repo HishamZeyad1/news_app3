@@ -1,8 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:logout_problem_solution/CacheHelper.dart';
 import 'package:logout_problem_solution/HomeScreen.dart';
+import 'package:logout_problem_solution/Screens/Category_View.dart';
 import 'package:logout_problem_solution/Screens/category_page.dart';
 import 'package:logout_problem_solution/nav_menu.dart';
 import 'package:logout_problem_solution/page/user_page.dart';
@@ -37,6 +37,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       NavMenuItem(isLoggedIn?"Logout":"Login",isLoggedIn?Icons.logout:Icons.login,isLoggedIn?() => Logout():() =>Login()),
        NavMenuItem("register",Icons.app_registration,()=>Register()),
        NavMenuItem("select Category",Icons.category ,() => CategoryPage() ),
+       NavMenuItem("view Category",Icons.category ,() => CategoryView() ),
 
        // ListTile(
       // leading: Icon(Icons.people),

@@ -11,6 +11,7 @@ import 'package:logout_problem_solution/api/categories_api.dart';
 import 'package:logout_problem_solution/models/category.dart';
 import 'package:logout_problem_solution/utilities/data_utilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_web_scrollbar/flutter_web_scrollbar.dart';
 
 
 class CategoryPage extends StatefulWidget {
@@ -25,9 +26,10 @@ class CategoryPageState extends State<CategoryPage> {
   late Future<List<Category>> Categories;
   ValueNotifier<int> _pageViewNotifier = ValueNotifier(0);
   late List<bool> _checked = [];
+  late List<int> _ids = [];
 
-  late List<int> NewsFavoriteList = [];
   late List<SharedPreferences> prefs = [];
+  List<String> FollowedCategory=[];
 
   // late Map<String,bool> map={"key":follow,"value":true};
   bool block = false;
@@ -35,62 +37,25 @@ class CategoryPageState extends State<CategoryPage> {
 
   CategoriesAPI categoryapi = new CategoriesAPI();
   bool onchange=false;
-  // void _addCategories() {
-  //   Categories = categoryapi.fetchCategories();
-  //   // Categories.add(Category("1","Policy", 'assets/images/news/political-news.jpg'));
-  //   // Categories.add(Category("2","Economy", 'assets/images/news/Economy1.jpg'));
-  //   // Categories.add(Category("3","Sport", 'assets/images/news/sportCategory2.jpg'));
-  //   // Categories.add(Category("4","Healthy", 'assets/images/news/health news1.png'));
-  //   // Categories.add(Category("5","Science", 'assets/images/news/Science News5.jpeg'));
-  //   // Categories.add(Category("6","Technology", 'assets/images/news/technogy news4.jpeg'));
-  //   // Categories.add(Category("7","Tourism", 'assets/images/news/Tourism news1.jpg'));
-  // }
-  // void ss() async {
-  //   print("********ss()**********");
-  //
-  //   Categories = categoryapi.fetchCategories();    print("******************");
-  //   print(await categoryapi.getLength());
-  //
-  //   length=categoryapi.getLength() as int?;    print("******************");
-  //   _checked.length=length??0;     print("******************");
-  //
-  //   print("******************");
-  //   print(_checked.length);
-  //   for(int i=0;i<_checked.length;++i){
-  //     _checked.add(false);
-  //     _checked[i] =(CacheHelper.getbool(key:"check$i")==null?false:CacheHelper.getbool(key:"check$i"))!;
-  //   }
-  //   print("********End ss()**********");
-  //
-  // }
-  // @override
-  // void initState() {
-  //   print("*******initState*********");
-  //   super.initState();
-  //   WidgetsFlutterBinding.ensureInitialized();
-  //   // ss();
-  //   // Categories = categoryapi.fetchCategories();
-  //   // final int? length=await categoryapi.getLength()??0;
-  //   // // int all=(Categories as List).length;
-  //   // for(int i=0;i<length!;++i){
-  //   //   _checked.add(false);
-  //   //   _checked[i] =(CacheHelper.getbool(key:"check$i")==null?_checked[i]:CacheHelper.getbool(key:"check$i"))!;
-  //   // }
-  //   // TODO: implement initState
-  //
-  //   // Future<int?> len=categoryapi.getLength();int z=len as int;
-  //   // if(z==0){ }else{
-  //   //   for(int i=0;i<z;++i){
-  //   //     _checked.add(false);
-  //   //     _checked[i] =(CacheHelper.getbool(key:"check$i")==null?_checked[i]:CacheHelper.getbool(key:"check$i"))!;
-  //   //   }
-  //   // }
-  // }
+  late ScrollController _controller;
+
+  @override
+  void initState() {
+    //Initialize the  scrollController
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  void scrollCallBack(DragUpdateDetails dragUpdate) {
+    setState(() {
+      // Note: 3.5 represents the theoretical height of all my scrollable content. This number will vary for you.
+      _controller.position.moveTo(dragUpdate.globalPosition.dy * 3.5);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // _addCategories();
     print("*******build*********");
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Choose  Categories"),
@@ -122,29 +87,37 @@ class CategoryPageState extends State<CategoryPage> {
                             List<Category> Categories = snapShot.data;
                             if(!onchange){
                             for (int i = 0; i < Categories.length; ++i) {
+                              int id = int.parse(Categories[i].id.toString());
                               _checked.add(false);
                               _checked[i] =
-                              (CacheHelper.getbool(key: "check$i") == null
+                              (CacheHelper.getbool(key: "$id") == null
                                   ? _checked[i]
-                                  : CacheHelper.getbool(key: "check$i"))!;
+                                  : CacheHelper.getbool(key: "$id"))!;
+                              _ids.add(id);
+                              // _categoriescheck.add(new categoryCheck(id, _checked[i]));
                             }onchange=true;
                             }
-                            return ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemBuilder: (context, index) {
-                                return SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      _drawRecentUpdates(
-                                          RandomColor(), Categories[index],
-                                          index, Categories.length),
-                                    ],
-                                  ),
-                                );
-                              },
-                              itemCount: Categories.length,
+                            return Scrollbar(
+                              isAlwaysShown: true,
+                              controller: _controller,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                controller: _controller,
+                                itemBuilder: (context, index) {
+                                  return SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: <Widget>[
+                                        _drawRecentUpdates(
+                                            RandomColor(), Categories[index],
+                                            index, Categories.length),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: Categories.length,
+                              ),
                             );
                           } else {
                             return noData();
@@ -244,15 +217,6 @@ class CategoryPageState extends State<CategoryPage> {
 
   Widget _drawRecentUpdatesCard(Color color, Category post, int index,
       int length) {
-    // for(int i=0;i<length;++i){
-    //   _checked.add(false);
-    //   _checked[i] =(CacheHelper.getbool(key:"check$i")==null?_checked[i]:CacheHelper.getbool(key:"check$i"))!;
-    // }
-    //
-    // print( "Hisham Zeyad:");
-    // print(prefs);
-    // print(prefs.length);//prefs.isEmpty?_checked[index]:prefs[index].getBool('follow')
-    // print(_checked[index]);
     return Stack(
         children: <Widget>[
           Card(
@@ -328,6 +292,18 @@ class CategoryPageState extends State<CategoryPage> {
               },
             ),
           ),
+          // FlutterWebScroller(
+          //   //Pass a reference to the ScrollCallBack function into the scrollbar
+          //   scrollCallBack,
+          //
+          //   //Add optional values
+          //   scrollBarBackgroundColor: Colors.white,
+          //   scrollBarWidth: 20.0,
+          //   dragHandleColor: Colors.red,
+          //   dragHandleBorderRadius: 2.0,
+          //   dragHandleHeight: 40.0,
+          //   dragHandleWidth: 15.0,
+          // ),
         ]
     );
   }
@@ -345,107 +321,15 @@ class CategoryPageState extends State<CategoryPage> {
   }
 
   void _updateFollow() {
-    //
-    // //   SharedPreferences prefs = await SharedPreferences.getInstance();
-    // print("###############################################################");
-    //
     for (int index = 0; index < _checked.length; ++index) {
       print("**************************************************************");
-      CacheHelper.putbool(key: "check${index}", value: _checked[index]);
+      int id=_ids[index];
+      CacheHelper.putbool(key: "${id}", value: _checked[index]);
+      if(_checked[index]==true){
+        FollowedCategory.add(_ids[index].toString());
+      }
     }
+    CacheHelper.StringList(key: "FollowedCategory", value: FollowedCategory);
+    print(CacheHelper.getStringList(key: "FollowedCategory"));
   }
 }
-// class CheckBox extends StatefulWidget {
-//   bool _checked=false;
-//   int index=0,length=0;
-//   _CheckBoxState createState() => _CheckBoxState(_checked,index,length);
-//   CheckBox(bool _checked1,int index1,int length1){_checked=_checked1;index=index1;length=length1;}
-// }
-//
-// class _CheckBoxState extends State {
-//   late double val;
-//   bool _checked=false;
-//   int index=0,length=0;
-//   void initState() {
-//     print("initState");
-//     super.initState();
-//     val = 0;
-//     // for (int i = 0; i <length; ++i) {
-//     //   _checked.add(false);
-//     //   _checked[i] =
-//     //   (CacheHelper.getbool(key: "check$i") == null ? _checked[i] : CacheHelper
-//     //       .getbool(key: "check$i"))!;
-//     // }
-//   }
-//
-//   _CheckBoxState(bool _checked1,int index1,int length1) {
-//     _checked = _checked1;index=index1;length=length1;
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // TODO: implement build
-//     return _drawCheckbox(_checked);
-//   }
-//
-//   Widget _drawCheckbox(bool b) {
-//     bool block = false;
-//
-//     return CheckboxListTile(
-//       // secondary: Icon(Icons.check,size: 200,),
-//       value: b,
-//       activeColor: Colors.blue,
-//       checkColor: Colors.white,
-//       // tileColor:Colors.green,
-//       onChanged: (bool? value) {
-//         setState(() {
-//           b = !b;
-//           // _checked=!_checked;
-//           print(b);
-//           // print("NewsFavoriteList$NewsFavoriteList");
-//         });
-//       },
-//     );
-//   }
-//
-//   void _updateFollow() {
-//     for (int index = 0; index < length; ++index) {
-//       print("**************************************************************");
-//       CacheHelper.putbool(key: "check${index}", value: _checked);
-//     }
-//   }
-// // class CheckPage extends StatefulWidget {
-// //   List<bool> _checked=[];
-// //   int _index=0;
-// //   CheckPage(List<bool> _checked1,int _index1){_checked=_checked1;_index=_index1;}
-// //
-// //   @override
-// //   CheckPageState createState() {
-// //     return new CheckPageState(_checked,_index);
-// //   }
-// // }
-// // class CheckPageState extends State<CategoryPage>{
-// //   List<bool> _checked=[];
-// //   int index=0;
-// //   CheckPageState(List<bool> _checked1,int _index1){_checked=_checked1;index=_index1;}
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     // TODO: implement build
-// //    return  CheckboxListTile(
-// //      // secondary: Icon(Icons.check,size: 200,),
-// //
-// //      value:_checked[index],
-// //      activeColor:Colors.blue,
-// //      checkColor:Colors.white,
-// //      // tileColor:Colors.green,
-// //      onChanged: (bool? value) {
-// //        setState(() {
-// //          _checked[index]=!_checked[index];
-// //          // print("NewsFavoriteList$NewsFavoriteList");
-// //        });
-// //      },
-// //    );
-// //   }
-// // }
-// }
