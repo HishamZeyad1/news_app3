@@ -115,6 +115,66 @@ class PostsAPI {
     return post;
   }
 
+  Future<List<Post>> fetChPostsByCollectionCategoryId(List<int> category,bool domain1) async {
+    //print("******************************************");
+    String whatsNewApi,postsViewByCategory_api;
+    if(domain1==true){
+      whatsNewApi = base_api1 + categoriesPostsCollection_api ;
+    }else{
+      whatsNewApi = base_api + categoriesPostsCollection_api ;
+    }
+    Map<String,String> headers = {
+      "Accept" : "application/json",
+      "Content-Type" : "application/x-www-form-urlencoded"
+    };
+    Map<String,String> body = {
+      "categories" : category.toString(),
+    };
+
+    var url = Uri.parse(whatsNewApi);
+    // print(url);
+    // print(category);
+
+    var response = await http.post(url,headers:headers,body: body
+        // body:jsonEncode({ // body of post
+        // 'categories' : category,
+        // })
+    );
+    List<Post> posts = <Post>[];
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      print(jsonData);
+
+      var data = jsonData["data"];
+      // print(data.length());
+      for (var item in data) {
+        Post post = Post(
+          id: item["id"].toString(),
+          title: item["title"].toString(),
+          content: item["content"].toString(),
+          dateWritten: item["date_written"].toString(),
+          featuredImage: item["featured_image"].toString(),
+          votesUp: item["votes_up"],
+          votesDown: item["votes_down"],
+          votersUp: (item["voters_up"] == null) ? <int>[] : jsonDecode(
+              item["voters_up"]),
+          votersDown: (item["voters_down"] == null) ? <int>[] : jsonDecode(
+              item["voters_down"]),
+          userId: item["author_id"],
+          categoryId: item["category_id"],
+        );
+        print("************************");
+        print(post);
+
+        posts.add(post);
+      }
+
+    }
+    return posts;
+  }
+
 
 
 

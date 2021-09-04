@@ -130,7 +130,7 @@ class CategoryPageState extends State<CategoryView>with SingleTickerProviderStat
             _drawRecentUpdatesCard( co,ca,index),
 
             SizedBox(
-              height: 48,
+              height: 5,
             ),
           ],
         ),

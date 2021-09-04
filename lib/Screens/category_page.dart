@@ -154,7 +154,7 @@ class CategoryPageState extends State<CategoryPage> {
 
                         print("************************************");
 
-                        print(_checked);
+                        // print(_checked);
                         if (_checked.contains(true)) {
                           // _updateFollow();
                           Navigator.push(
@@ -286,7 +286,7 @@ class CategoryPageState extends State<CategoryPage> {
                 setState(() {
                   _checked[index] = !_checked[index];
                   // _checked=!_checked;
-                  print(_checked[index]);
+                  // print(_checked[index]);
                   // print("NewsFavoriteList$NewsFavoriteList");
                 });
               },
@@ -327,9 +327,12 @@ class CategoryPageState extends State<CategoryPage> {
       CacheHelper.putbool(key: "${id}", value: _checked[index]);
       if(_checked[index]==true){
         FollowedCategory.add(_ids[index].toString());
+      }else{
+        FollowedCategory.remove(_ids[index].toString());
       }
     }
     CacheHelper.StringList(key: "FollowedCategory", value: FollowedCategory);
+    print("*********getStringList**********");
     print(CacheHelper.getStringList(key: "FollowedCategory"));
   }
 }

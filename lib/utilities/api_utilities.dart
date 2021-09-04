@@ -8,6 +8,8 @@ String recent_updates_api="/api/posts/categories/2";
 
 String categories_api = "/api/posts/categories/";
 String Comments_api =   "/api/comments/posts/";
+String categoriesPostsCollection_api = "/api/posts/categories";
+String Category_api="/api/categories/";
 
 String post_api = "/api/posts/";
 

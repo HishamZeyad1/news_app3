@@ -49,4 +49,33 @@ class CategoriesAPI {
     return categories;
   }
 
+  Future<Category> fetchCategory(String id) async {
+    late int i=0;
+    Category category = new Category("1", "Sport");
+
+    categoriesUrl = base_api + Category_api+id;
+    url = Uri.parse(categoriesUrl);
+    headers = {
+      "Accept" : "application/json",
+      "Content-Type" : "application/x-www-form-urlencoded",
+    };
+    var response = await http.get( url,headers:headers);
+    if( response.statusCode == 200 ){
+      var jsondata = jsonDecode( response.body );final length = jsondata.length;
+
+      // var data = jsondata["data"];
+      print("****************************");
+      // for( var item in data ){
+        category = Category( jsondata["id"].toString() , jsondata["name"].toString(),jsondata["avatar"].toString());
+        // categories.add( category );
+        // ++i;
+        // this.i=i;
+        // print( category.title );
+      }
+      this.length=i;
+      print("****************************");
+    // }
+    return category;
+  }
+
 }

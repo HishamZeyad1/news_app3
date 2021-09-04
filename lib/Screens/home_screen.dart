@@ -83,22 +83,22 @@ class _HomeScreenState extends State<HomeScreen>with SingleTickerProviderStateMi
           indicatorColor: Colors.white,
           tabs: [
             Tab(
-              text: "WHAT'S NEW",
+              text: "LatestNews",//"WHAT'S NEW",
             ),
             Tab(
-              text: "POPULAR",
+              text: "OldestNews",//"POPULAR",
             ),
             Tab(
-              text: "FAVOURITES",
+              text: "VotesUp",
             ),
         Tab(
-           text: "VotesUp",
+           text: "VotesDown",
             ),
           ],
           controller: _tabController,
         ),
       ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       body: Center(
         child:TabBarView( children: [
           WhatsNew(id,type),

@@ -8,6 +8,7 @@ import 'package:logout_problem_solution/nav_menu.dart';
 import 'package:logout_problem_solution/page/user_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Screens/homePage.dart';
 import 'login.dart';
 import 'register.dart';
 // import 'package:logout_problem_solution/register.dart';
@@ -36,8 +37,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
       NavMenuItem(isLoggedIn?"Logout":"Login",isLoggedIn?Icons.logout:Icons.login,isLoggedIn?() => Logout():() =>Login()),
        NavMenuItem("register",Icons.app_registration,()=>Register()),
-       NavMenuItem("select Category",Icons.category ,() => CategoryPage() ),
-       NavMenuItem("view Category",Icons.category ,() => CategoryView() ),
+       NavMenuItem("select Category",Icons.select_all ,() => CategoryPage() ),
+       NavMenuItem("Other Category",Icons.category ,() => CategoryView() ),
+       NavMenuItem("view News",Icons.category ,() => CategoryView() ),
 
        // ListTile(
       // leading: Icon(Icons.people),
