@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logout_problem_solution/CacheHelper.dart';
 import 'package:logout_problem_solution/Screens/single_post.dart';
 import 'package:logout_problem_solution/api/authors_api.dart';
 import 'package:logout_problem_solution/api/posts_api.dart';
@@ -6,26 +7,30 @@ import 'package:logout_problem_solution/models/author.dart';
 import 'package:logout_problem_solution/models/post.dart';
 import 'package:logout_problem_solution/utilities/data_utilities.dart';
 
-class Popular extends StatefulWidget {
-  late int id;
-  Popular( this.id);
+class Popular1 extends StatefulWidget {
+
+  Popular1();
 
   @override
-  _PopularState createState() => _PopularState(this.id);
+  _Popular1State createState() => _Popular1State();
 }
 
-class _PopularState extends State<Popular> {
+class _Popular1State extends State<Popular1> {
   PostsAPI postsAPI = PostsAPI();
 
   AuthorsAPI authorsAPI=new AuthorsAPI();
   late int id;
-  _PopularState(int id){this.id=id;}
   late ScrollController _controller;
+  late List<int> category;
+  late List<String> fav;
 
   @override
   void initState() {
     //Initialize the  scrollController
     _controller = ScrollController();
+    print(CacheHelper.getStringList(key: "FollowedCategory"));
+    fav=CacheHelper.getStringList(key: "FollowedCategory")??[];
+    category = fav==[]?[]:fav.map(int.parse).toList();
     super.initState();
   }
 
@@ -39,7 +44,7 @@ class _PopularState extends State<Popular> {
   Widget build(BuildContext context) {
 
     return FutureBuilder(
-        future: postsAPI.fetChPostsByCategoryId("$id",true,2),
+        future: postsAPI.fetChPopularPostsByCollectionCategoryId(category, false),
         builder: (context, AsyncSnapshot snapShot) {
           switch ( snapShot.connectionState ){
             case ConnectionState.none :
@@ -58,19 +63,19 @@ class _PopularState extends State<Popular> {
               }else {
                 List<Post> posts = snapShot.data;
                 print(posts);
-                 return Scrollbar(
+                return Scrollbar(
                     isAlwaysShown: true,
                     controller: _controller,
 
-                   child: ListView.builder(
-                     controller: _controller,
-                    itemBuilder: (context, position) {
-                    return Card(
-                      // child: _drawSingleRow(),
-                      child: _drawSingleRow( posts[position] ) ,
-                    );
-                  }, itemCount: posts.length,
-                ));
+                    child: ListView.builder(
+                      controller: _controller,
+                      itemBuilder: (context, position) {
+                        return Card(
+                          // child: _drawSingleRow(),
+                          child: _drawSingleRow( posts[position] ) ,
+                        );
+                      }, itemCount: posts.length,
+                    ));
               }
           }
 
@@ -85,7 +90,7 @@ class _PopularState extends State<Popular> {
       child: GestureDetector(
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: ( context ){
-            return SinglePost( post,true);
+            return SinglePost( post,false);
           }));
         },
         child: Row(
@@ -124,7 +129,7 @@ class _PopularState extends State<Popular> {
                       // Text('Michael Adams',style: TextStyle(fontSize: 12)),
                       Container(
                           child:FutureBuilder(
-                              future:authorsAPI.fetChAuthorsByPostId(post.userId.toString(),true),
+                              future:authorsAPI.fetChAuthorsByPostId(post.userId.toString(),false),
                               builder: (context,AsyncSnapshot  snapShot) {
                                 switch (snapShot.connectionState) {
                                   case ConnectionState.waiting:return loading(); break;
@@ -135,7 +140,7 @@ class _PopularState extends State<Popular> {
                                     else {
                                       if (snapShot.hasData) {
                                         Author author = snapShot.data;
-                                        return Row(
+                                       return Row(
                                             children: <Widget>[
                                               Icon(
                                                 Icons.person,
@@ -147,8 +152,8 @@ class _PopularState extends State<Popular> {
                                         // return SizedBox(width:160,child: Text(author.name, style: TextStyle(fontSize: 16,color:Colors.blueAccent),));
                                       }else {return noData();}
                                     };break;}})
-                          //   child: Text("post", style: TextStyle(fontSize: 10),),
-            ),
+                        //   child: Text("post", style: TextStyle(fontSize: 10),),
+                      ),
                       SizedBox(
                         width: 15,
                       ),

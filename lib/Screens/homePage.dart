@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logout_problem_solution/api/authors_api.dart';
 import 'package:logout_problem_solution/api/categories_api.dart';
 import 'package:logout_problem_solution/api/posts_api.dart';
+import 'package:logout_problem_solution/home_tabs/popular1.dart';
 import 'package:logout_problem_solution/home_tabs/whats_new1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,7 @@ class _HomeScreen1State extends State<HomeScreen1>with SingleTickerProviderState
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: 1, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
 
   }
   @override
@@ -59,11 +60,11 @@ class _HomeScreen1State extends State<HomeScreen1>with SingleTickerProviderState
             indicatorColor: Colors.white,
             tabs: [
               Tab(
-                text: "LatestNews",//"WHAT'S NEW",
+                text: "What's News",//"WHAT'S NEW",
               ),
-              // Tab(
-              //   text: "OldestNews",//"POPULAR",
-              // ),
+              Tab(
+                text: "Popular",//"POPULAR",
+              ),
               // Tab(
               //   text: "VotesUp",
               // ),
@@ -74,11 +75,11 @@ class _HomeScreen1State extends State<HomeScreen1>with SingleTickerProviderState
             controller: _tabController,
           ),
         ),
-      // drawer: NavigationDrawer(),
+      drawer: NavigationDrawer(),
       body: Center(
         child:TabBarView( children: [
           WhatsNew1(),
-          // Popular(id),
+          Popular1(),
           // Favourites(id,type,3),
           // Favourites(id,type,4)
         ] , controller: _tabController,  ),

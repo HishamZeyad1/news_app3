@@ -172,13 +172,22 @@ class _FavouritesState extends State<Favourites> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
               children: <Widget>[
-                Text(
-                  // 'Michael Adams',
-                  postDetails.author.name,
-                  style: TextStyle(
-                    color: Colors.grey,
+                // Text(
+                //   // 'Michael Adams',
+                //   postDetails.author.name,
+                //   style: TextStyle(
+                //     color: Colors.grey,
+                //   ),
+                // ),
+                   Row(
+                  children: <Widget>[
+                  Icon(
+                  Icons.person,
+                  color: Colors.grey,
+                  size: 18,
                   ),
-                ),
+                  SizedBox(width:160,child: Text(postDetails.author.name, style: TextStyle(fontSize: 16,color:Colors.blueAccent),)),
+                  ]),
                 // SizedBox(
                 //   height: 8,
                 // ),
@@ -223,7 +232,7 @@ class _FavouritesState extends State<Favourites> {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: ( context ){
-          return SinglePost( post );
+          return SinglePost( post,true);
         }));
       },
       child: Row(

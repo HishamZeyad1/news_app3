@@ -58,12 +58,7 @@ class CategoryPageState extends State<CategoryView>with SingleTickerProviderStat
     });
   }
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  //   _tabController.dispose();
-  // }
+
   @override
   Widget build(BuildContext context) {
     _addCategories();
@@ -71,12 +66,6 @@ class CategoryPageState extends State<CategoryView>with SingleTickerProviderStat
       appBar: AppBar(
         title: Text("Categories"),
         centerTitle: false,
-        // actions: <Widget>[
-        //   IconButton(icon: Icon(Icons.search), onPressed: () {}),
-        //   // IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-        //   // _popOutMenu(context),
-        //
-        // ],
       ),
       drawer: NavigationDrawer(),
       body:Stack(

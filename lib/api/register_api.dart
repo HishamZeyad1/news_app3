@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterAPI {
 
+
+
   Future<bool> register(String name , String email , String password ) async {
     String registerapi =base_api+register_api ;//"http://localhost:8000/api/register"
     String authApi = base_api+auth_api;
@@ -36,7 +38,6 @@ class RegisterAPI {
     if( response.statusCode == 200||response.statusCode == 201 ){
       try{
         print("**********Done**************");
-
         var jsonData = jsonDecode( response.body);
         var data = jsonData['data'];
         print("**********data**************");

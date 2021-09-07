@@ -55,6 +55,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget _drawLoginForm() {
+    print("loginError:$loginError");
     if( loginError ){
       return Container(
         child: Center(
@@ -124,6 +125,7 @@ class _LoginState extends State<Login> {
 
     var response = await authenticationAPI.login(
     username, password);
+    print("response:$response");
 
     if (response) {
       Fluttertoast.showToast(

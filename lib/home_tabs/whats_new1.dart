@@ -146,72 +146,8 @@ class _WhatsNewState extends State<WhatsNew1> {
     );
     return Text("jjjjhjhj");
 
-  }
-  // Widget _drawTopStories() {
-  //   return Container(
-  //     color: Colors.grey.shade100,
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: <Widget>[
-  //         Padding(
-  //           padding: const EdgeInsets.only(left: 16, top: 16),
-  //           child: _drawSectionTitle('Top Stories'),
-  //         ),
-  //         Padding(
-  //           padding: EdgeInsets.all(8.0),
-  //           child: Card(
-  //
-  //             child: FutureBuilder(
-  //               // future: postsAPI.fetchWhatsNew(),
-  //               future: postsAPI.fetChPostsByCollectionCategoryId(category, false),
-  //               builder: (context, AsyncSnapshot snapShot) {
-  //                 switch (snapShot.connectionState) {
-  //                   case ConnectionState.waiting:
-  //                     return loading();
-  //                     break;
-  //                   case ConnectionState.active:
-  //                     return loading();
-  //                     break;
-  //                   case ConnectionState.none:
-  //                     return connectionError();
-  //                     break;
-  //                   case ConnectionState.done:
-  //                     if (snapShot.error != null) {
-  //                       return error(snapShot.error);
-  //                     } else {
-  //                       if (snapShot.hasData) {
-  //                         List<Post> posts = snapShot.data;
-  //                         if (posts.length >= 3) {
-  //                           Post post1 = snapShot.data[0];
-  //                           Post post2 = snapShot.data[1];
-  //                           Post post3 = snapShot.data[2];
-  //                           return Column(
-  //                             children: <Widget>[
-  //                               _drawSingleRow(post1),
-  //                               _drawDivider(),
-  //                               _drawSingleRow(post2),
-  //                               _drawDivider(),
-  //                               _drawSingleRow(post3),
-  //                             ],
-  //                           );
-  //                         } else {
-  //                           return noData();
-  //                         }
-  //                       } else {
-  //                         return noData();
-  //                       }
-  //                     };                      break;
-  //                 }
-  //               },
-  //             ),
-  //           ),
-  //         ),
-  //
-  //       ],
-  //     ),
-  //   );
-  // }
 
+}
   Widget _drawDivider() {
     return Container(
       height: 1,
@@ -246,7 +182,7 @@ class _WhatsNewState extends State<WhatsNew1> {
       child: GestureDetector(
         onTap: (){
           Navigator.push( context, MaterialPageRoute(builder: ( context ){
-            return SinglePost( post );
+            return SinglePost( post,false );
           }));
         },
         child: Row(
@@ -346,7 +282,7 @@ class _WhatsNewState extends State<WhatsNew1> {
       child: GestureDetector(
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: ( context   ){
-            return SinglePost(post);
+            return SinglePost(post,false);
           }));
         },
         child: Column(

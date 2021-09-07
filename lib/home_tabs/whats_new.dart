@@ -22,7 +22,8 @@ class WhatsNew extends StatefulWidget {
 
 class _WhatsNewState extends State<WhatsNew> {
   late PostsAPI postsAPI=new PostsAPI();
-  late AuthorsAPI authorsAPI;
+  late AuthorsAPI authorsAPI=new AuthorsAPI() ;
+
 
   late int id;
   late String type;
@@ -158,7 +159,7 @@ class _WhatsNewState extends State<WhatsNew> {
                 return GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: ( context ){
-                      return SinglePost( post );
+                      return SinglePost( post,true);
                     }) );
                   } ,
                   child: Container(
@@ -310,7 +311,7 @@ class _WhatsNewState extends State<WhatsNew> {
       child: GestureDetector(
         onTap: (){
           Navigator.push( context, MaterialPageRoute(builder: ( context ){
-            return SinglePost( post );
+            return SinglePost( post,true );
           }));
         },
         child: Row(
@@ -358,7 +359,16 @@ class _WhatsNewState extends State<WhatsNew> {
                                     else {
                                       if (snapShot.hasData) {
                                         Author author = snapShot.data;
-                                        return Text(author.name, style: TextStyle(fontSize: 12),);
+                                        return Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.person,
+                                                color: Colors.grey,
+                                                size: 18,
+                                              ),
+                                              SizedBox(width:160,child: Text(author.name, style: TextStyle(fontSize: 16,color:Colors.blueAccent),)),
+                                            ]);
+                                        // return Text(author.name, style: TextStyle(fontSize: 12),);
                                       }else {return noData();}
                                     };break;}})),
                       Row(
@@ -490,7 +500,7 @@ class _WhatsNewState extends State<WhatsNew> {
       child: GestureDetector(
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: ( context   ){
-            return SinglePost(post);
+            return SinglePost(post,true);
           }));
         },
         child: Column(
@@ -538,6 +548,33 @@ class _WhatsNewState extends State<WhatsNew> {
               padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
               child: Row(
                 children: <Widget>[
+                  Row(
+                      children: <Widget>[
+                      FutureBuilder(
+                    future:authorsAPI.fetChAuthorsByPostId(post.userId.toString(),true),
+                    builder: (context,AsyncSnapshot  snapShot) {
+                      switch (snapShot.connectionState) {
+                        case ConnectionState.waiting:return loading(); break;
+                        case ConnectionState.active: return loading(); break;
+                        case ConnectionState.none: return connectionError();break;
+                        case ConnectionState.done:
+                          if (snapShot.error != null) {return error(snapShot.error);}
+                          else {
+                            if (snapShot.hasData) {
+                              Author author = snapShot.data;
+                              return Row(
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.person,
+                                      color: Colors.grey,
+                                      size: 18,
+                                    ),
+                                    SizedBox(width:160,child: Text(author.name, style: TextStyle(fontSize: 16,color:Colors.blueAccent),)),
+                                  ]);
+                              // return Text(author.name, style: TextStyle(fontSize: 12),);
+                            }else {return noData();}
+                          };break;}}),
+                      ]),
                   Icon(
                     Icons.timer,
                     color: Colors.grey,

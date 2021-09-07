@@ -8,7 +8,11 @@ String recent_updates_api="/api/posts/categories/2";
 
 String categories_api = "/api/posts/categories/";
 String Comments_api =   "/api/comments/posts/";
+String AddComments_api =   "/api/comments/posts";
+
 String categoriesPostsCollection_api = "/api/posts/categories";
+String categoriesPopularPostsCollection_api = "/api/popularposts/categories";
+
 String Category_api="/api/categories/";
 
 String post_api = "/api/posts/";
@@ -19,7 +23,9 @@ String voteUpPosts_api = "/api/voteUpPosts/categories/";
 String voteDownPosts_api = "/api/voteDownPosts/categories/";
 
 
+
 String Author_api="/api/authors/";
+String User_api="/api/users/";
 
 String auth_api = "/api/token";
 String register_api = "/api/register";

@@ -17,8 +17,8 @@ Widget error(var error) {
 
 Widget noData() {
   return Container(
-    padding: EdgeInsets.all(16),
-    child: Text('No Data Available!'),
+    // padding: EdgeInsets.all(16),
+    // child: Text('No Data Available!'),
   );
 }
 

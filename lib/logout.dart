@@ -23,6 +23,7 @@ class Logout extends StatefulWidget {
 class _LogoutState extends State<Logout> {
   static bool isLoggedIn = CacheHelper.getbool(key: "isLoggedIn")??false;
   static bool? token=      CacheHelper.getbool(key: "token")??null;
+  static String? tokenStr= CacheHelper.getstring(key: "tokenStr")??null;
 
 // void c(){
 //  // token=CacheHelper.getbool(key: "token")??null;
@@ -42,7 +43,7 @@ class _LogoutState extends State<Logout> {
   //  // sharedPreferences=CacheHelper.init();
   //   token=CacheHelper.getbool(key: 'token');
   //   return token;
-  // }
+  // }  static bool? token=      CacheHelper.getbool(key: "token")??null;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,8 @@ class _LogoutState extends State<Logout> {
     // //
     if( token != null ){
       CacheHelper.sharedPreferences1!.remove('token');
+      CacheHelper.sharedPreferences1!.remove('tokenStr');
+
       // CacheHelper.putbool(key: "token", value: false);
       CacheHelper.putstring(key: "name", value: null);
       CacheHelper.putstring(key: "email", value: null);

@@ -20,6 +20,8 @@ class AuthenticationAPI {
     var url = Uri.parse(authApi);
 
     var response = await http.post( url , headers: headers , body: body );
+    print(response.statusCode);
+    print(response.body);
 
     if( response.statusCode == 200 ||response.statusCode == 201 ){
       try{
@@ -36,16 +38,18 @@ class AuthenticationAPI {
         var email=jsonData['user']['email'];
         var avatar=jsonData['user']['avatar'];
         print("************user************************");
-        // print(user);
+        print("name:$name");print(email);print(avatar);
 
         // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         // sharedPreferences.setString("token", token);
         CacheHelper.putbool(key: "token", value: true);
+        CacheHelper.putstring(key: "tokenStr", value: token);
         CacheHelper.putstring(key: "name", value: name);
         CacheHelper.putstring(key: "email", value: email);
         CacheHelper.putstring(key: "avatar", value: avatar);
         return true;
       }catch( Exception ){
+        print(Exception.toString());
         return false;
       }
 
