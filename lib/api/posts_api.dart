@@ -141,6 +141,7 @@ class PostsAPI {
         // })
     );
     List<Post> posts = <Post>[];
+    print("##########################posts#######################");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -201,6 +202,7 @@ class PostsAPI {
       // })
     );
     List<Post> posts = <Post>[];
+    print("##########################posts#######################");
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
@@ -231,6 +233,8 @@ class PostsAPI {
       }
 
     }
+    print("##########################posts#######################");
+    print(posts);
     return posts;
   }
 

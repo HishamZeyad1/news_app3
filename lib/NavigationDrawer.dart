@@ -9,6 +9,7 @@ import 'package:logout_problem_solution/page/user_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Screens/OnBoarding.dart';
+import 'Screens/SocialMedia.dart';
 import 'Screens/homePage.dart';
 import 'login.dart';
 import 'register.dart';
@@ -42,7 +43,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
        NavMenuItem("Other Category",Icons.category ,() => CategoryView() ),
        NavMenuItem("view News",Icons.home ,() => HomeScreen1() ),
        NavMenuItem("About App",Icons.account_balance_outlined ,() => OnBoarding() ),
-       NavMenuItem("SocialMedia",Icons.home ,() => HomeScreen1() ),
+       NavMenuItem("SocialMedia",Icons.home ,() => SocialMedia() ),
 
        // ListTile(
       // leading: Icon(Icons.people),
